@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-	@Autowired
 	private UserService userService;
+
+	@Autowired
+	public UserController(UserService userService) {
+		super();
+		this.userService = userService;
+	}
 
 	@RequestMapping("/db")
 	public ResponseEntity<?> getUsersDb() {
@@ -29,7 +34,13 @@ public class UserController {
 		return ResponseEntity.ok(manipulateStream(userService.getUsersStreamFromService()));
 	}
 
+	@RequestMapping("/add")
+	public ResponseEntity<?> addUsers() {
+		userService.addUsers();
+		return ResponseEntity.ok().build();
+	}
+
 	private User[] manipulateStream(Stream<User> users) {
-		return users.filter(u -> u.getFName().contains("3")).toArray(User[]::new);
+		return users.filter(u -> true).toArray(User[]::new);
 	}
 }

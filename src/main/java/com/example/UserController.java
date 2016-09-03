@@ -16,20 +16,20 @@ public class UserController {
 
 	@RequestMapping("/db")
 	public ResponseEntity<?> getUsersDb() {
-		return ResponseEntity.ok(workOnStream(userService.getUsersStreamFromDb()));
+		return ResponseEntity.ok(manipulateStream(userService.getUsersStreamFromDb()));
 	}
 
 	@RequestMapping("/db-notrans")
 	public ResponseEntity<?> getUsersDbNoTransactionl() {
-		return ResponseEntity.ok(workOnStream(userService.getUsersStreamFromDbWithNoTransactionalAnnot()));
+		return ResponseEntity.ok(manipulateStream(userService.getUsersStreamFromDbWithNoTransactionalAnnot()));
 	}
 
 	@RequestMapping("/service")
 	public ResponseEntity<?> getUsersService() {
-		return ResponseEntity.ok(workOnStream(userService.getUsersStreamFromService()));
+		return ResponseEntity.ok(manipulateStream(userService.getUsersStreamFromService()));
 	}
 
-	private User[] workOnStream(Stream<User> users) {
+	private User[] manipulateStream(Stream<User> users) {
 		return users.filter(u -> u.getFName().contains("3")).toArray(User[]::new);
 	}
 }
